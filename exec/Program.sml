@@ -100,7 +100,7 @@ struct
         B_STAT''
       end
         handle Error.Error =>
-          B_STAT
+          OS.Process.exit OS.Process.failure
 
 
   (* Evaluation mode *)

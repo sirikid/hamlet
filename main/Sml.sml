@@ -116,7 +116,7 @@ struct
   fun fromSource' fromUsedFile (process, arg, cont) (filenameOpt, source) =
       let
         val arg' = process arg (filenameOpt, source)
-            handle Error.Error => if cont then arg else raise Abort
+            handle Error.Error => raise Abort
       in
         uses fromUsedFile (process, arg', cont)
       end
@@ -231,9 +231,9 @@ struct
   fun processString (f, arg) s =
       ignore(fromString (f, arg(lib()), false) s) handle Abort => ()
   fun processFile (f, arg) s =
-      ignore(fromFile (f, arg(lib()), false) s) handle Abort => ()
+      ignore(fromFile (f, arg(lib()), false) s) handle Abort => OS.Process.exit OS.Process.failure
   fun processFiles (f, arg) s =
-      ignore(fromFiles (f, arg(lib()), false) s) handle Abort => ()
+      ignore(fromFiles (f, arg(lib()), false) s) handle Abort => OS.Process.exit OS.Process.failure
   fun processSession (f, arg) () =
       fromSession(f, arg(lib() handle Abort => initialArg), true)
 
